@@ -16,7 +16,7 @@ public class WordRepository {
     private LiveData<List<Word>> mAllWords;
 
     public WordRepository(Application application) {
-        WordRoomDatabase db=WordRoomDatabase.getDatabase(application);
+        WordRoomDatabase db = WordRoomDatabase.getDatabase(application);
         //RoomDatabase에 있는 Dao를 가져온다.
         mWordDao=db.wordDao();
         //Dao의 쿼리를 이용하여 저장되어있는 모든 word를 가져온다.
@@ -27,6 +27,7 @@ public class WordRepository {
         return mAllWords;
     }
 
+/*
     //word를 추가하는 함수
     public void insert(Word word) {
         new insertAsyncTask(mWordDao).execute(word);
@@ -41,12 +42,14 @@ public class WordRepository {
 
         @Override
         protected Void doInBackground(final Word... words) {
+
             mAsyncTaskDao.insert(words[0]);
             return null;
         }
     }
 
-    /*
+ */
+
     public void insert(final Word word) {
         Runnable addRunnable= new Runnable() {
             @Override
@@ -59,5 +62,14 @@ public class WordRepository {
         diskIO.execute(addRunnable);
     }
 
-     */
+    public void update(final Word word){
+        Runnable updateRunnable = new Runnable() {
+            @Override
+            public void run() {
+                mWordDao.update(word);
+            }
+        };
+        Executor diskIO = Executors.newSingleThreadExecutor();
+        diskIO.execute(updateRunnable);
+    }
 }
