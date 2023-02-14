@@ -60,17 +60,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        adapter.setOnItemClickListener(new WordListAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Word model) {
-                Intent intent_update = new Intent(MainActivity.this, UpdateWordActivity.class);
-                intent_update.putExtra(UpdateWordActivity.EXTRA_ID, model.getId());
-                intent_update.putExtra(UpdateWordActivity.EXTRA_WORD,model.getWord());
-
-                startActivityForResult(intent_update, UPDATE_WORD_ACTIVITY_REQUEST_CODE);
-            }
-
-        });
+//        adapter.setOnItemClickListener(new WordListAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(Word model) {
+//                Intent intent_update = new Intent(MainActivity.this, UpdateWordActivity.class);
+//                intent_update.putExtra(UpdateWordActivity.EXTRA_ID, model.getId());
+//                intent_update.putExtra(UpdateWordActivity.EXTRA_WORD,model.getWord());
+//
+//                startActivityForResult(intent_update, UPDATE_WORD_ACTIVITY_REQUEST_CODE);
+//            }
+//
+//        });
 
     }
 
@@ -80,18 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
             mWordViewModel.insert(word);
-        } else if(requestCode == UPDATE_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(UpdateWordActivity.EXTRA_ID,-1);
-            if (id == -1){
-                    Toast.makeText(this, "word can't be update", Toast.LENGTH_SHORT).show();
-            }
-            String word = data.getStringExtra(UpdateWordActivity.EXTRA_WORD);
 
-            Word model = new Word(word);
-            model.setId(id);
-            mWordViewModel.update(model);
-
-            Toast.makeText(this, "Word Updated", Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(
                     getApplicationContext(),
